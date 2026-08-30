@@ -1,0 +1,206 @@
+{
+  "brand": {
+    "name": "Jayasree Designs",
+    "tagline": "Celebrate yourself with handcrafted elegance",
+    "instagram": "jayasreedesigns",
+    "instagramUrl": "https://instagram.com/jayasreedesigns",
+    "whatsappNumber": "918910661634",
+    "whatsappDisplay": "+91 89106 61634",
+    "email": "hello@jayasreedesigns.example",
+    "addressLine1": "Jayasree Designs (Studio)",
+    "addressLine2": "Placeholder address, Kolkata",
+    "addressLine3": "West Bengal 700000, India",
+    "currency": "INR",
+    "currencySymbol": "₹"
+  },
+  "collections": [
+    {
+      "id": "handcrafted-elegance",
+      "name": "Handcrafted Elegance",
+      "blurb": "Statement pieces in gold-plated brass — refined lines, a little sparkle, made for occasions."
+    },
+    {
+      "id": "ethnic-soul",
+      "name": "Ethnic Soul",
+      "blurb": "Oxidised finishes, temple motifs and terracotta — rooted in tradition, worn every day."
+    },
+    {
+      "id": "wire-art",
+      "name": "Wire Art",
+      "blurb": "Hand-wrapped copper and coloured wire, shaped one loop at a time — no two are identical."
+    },
+    {
+      "id": "everyday-colour",
+      "name": "Everyday Colour",
+      "blurb": "Glass beads, seed beads and resin in cheerful tones — light, playful, easy to layer."
+    }
+  ],
+  "priceRanges": [
+    { "id": "under-500", "label": "Under ₹500", "min": 0, "max": 499 },
+    { "id": "500-1000", "label": "₹500 – ₹1000", "min": 500, "max": 1000 },
+    { "id": "1000-2000", "label": "₹1000 – ₹2000", "min": 1000, "max": 2000 },
+    { "id": "2000-plus", "label": "₹2000 & above", "min": 2000, "max": 1000000 }
+  ],
+  "products": [
+    {
+      "id": "JD-NK-001",
+      "name": "Emerald-Glass Drop Pendant Necklace",
+      "price": 1650,
+      "collection": "handcrafted-elegance",
+      "material": "gold-plated brass with faceted green glass stone",
+      "image": "JD-NK-001.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Emerald-Glass Drop Pendant Necklace (JD-NK-001), ₹1650. Is it available?"
+    },
+    {
+      "id": "JD-ER-001",
+      "name": "Kundan-Style Chandbali Earrings",
+      "price": 1250,
+      "collection": "handcrafted-elegance",
+      "material": "gold-plated brass with kundan-style resin stones",
+      "image": "JD-ER-001.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Kundan-Style Chandbali Earrings (JD-ER-001), ₹1250. Is it available?"
+    },
+    {
+      "id": "JD-BN-001",
+      "name": "Filigree Openwork Cuff Bangle",
+      "price": 1450,
+      "collection": "handcrafted-elegance",
+      "material": "gold-plated brass filigree",
+      "image": "JD-BN-001.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Filigree Openwork Cuff Bangle (JD-BN-001), ₹1450. Is it available?"
+    },
+    {
+      "id": "JD-RG-001",
+      "name": "Solitaire Cocktail Ring",
+      "price": 850,
+      "collection": "handcrafted-elegance",
+      "material": "gold-plated brass with cubic zirconia",
+      "image": "JD-RG-001.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Solitaire Cocktail Ring (JD-RG-001), ₹850. Is it available?"
+    },
+    {
+      "id": "JD-NK-014",
+      "name": "Oxidised Temple Coin Necklace",
+      "price": 1350,
+      "collection": "ethnic-soul",
+      "material": "oxidised German silver (nickel-brass alloy)",
+      "image": "JD-NK-014.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Oxidised Temple Coin Necklace (JD-NK-014), ₹1350. Is it available?"
+    },
+    {
+      "id": "JD-ER-014",
+      "name": "Jhumka Bell Drop Earrings",
+      "price": 780,
+      "collection": "ethnic-soul",
+      "material": "oxidised German silver with glass beads",
+      "image": "JD-ER-014.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Jhumka Bell Drop Earrings (JD-ER-014), ₹780. Is it available?"
+    },
+    {
+      "id": "JD-ER-015",
+      "name": "Terracotta Peacock Studs",
+      "price": 450,
+      "collection": "ethnic-soul",
+      "material": "hand-painted terracotta clay with brass posts",
+      "image": "JD-ER-015.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Terracotta Peacock Studs (JD-ER-015), ₹450. Is it available?"
+    },
+    {
+      "id": "JD-BR-014",
+      "name": "Antique Ghungroo Charm Bracelet",
+      "price": 690,
+      "collection": "ethnic-soul",
+      "material": "oxidised brass with brass ghungroo bells",
+      "image": "JD-BR-014.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Antique Ghungroo Charm Bracelet (JD-BR-014), ₹690. Is it available?"
+    },
+    {
+      "id": "JD-NK-030",
+      "name": "Wire-Wrapped Quartz-Style Pendant",
+      "price": 880,
+      "collection": "wire-art",
+      "material": "hand-wrapped copper wire with clear glass quartz-style stone",
+      "image": "JD-NK-030.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Wire-Wrapped Quartz-Style Pendant (JD-NK-030), ₹880. Is it available?"
+    },
+    {
+      "id": "JD-ER-030",
+      "name": "Copper Wire Leaf Earrings",
+      "price": 520,
+      "collection": "wire-art",
+      "material": "hand-wrapped copper wire",
+      "image": "JD-ER-030.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Copper Wire Leaf Earrings (JD-ER-030), ₹520. Is it available?"
+    },
+    {
+      "id": "JD-RG-030",
+      "name": "Spiral Wrap Statement Ring",
+      "price": 320,
+      "collection": "wire-art",
+      "material": "enamel-coated copper-core wire",
+      "image": "JD-RG-030.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Spiral Wrap Statement Ring (JD-RG-030), ₹320. Is it available?"
+    },
+    {
+      "id": "JD-BR-030",
+      "name": "Beaded Wire Wrap Bangle",
+      "price": 560,
+      "collection": "wire-art",
+      "material": "copper-core wire with glass seed beads",
+      "image": "JD-BR-030.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Beaded Wire Wrap Bangle (JD-BR-030), ₹560. Is it available?"
+    },
+    {
+      "id": "JD-NK-045",
+      "name": "Layered Seed Bead Necklace",
+      "price": 540,
+      "collection": "everyday-colour",
+      "material": "glass seed beads on nylon thread with brass clasp",
+      "image": "JD-NK-045.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Layered Seed Bead Necklace (JD-NK-045), ₹540. Is it available?"
+    },
+    {
+      "id": "JD-ER-045",
+      "name": "Candy Glass Bead Hoops",
+      "price": 390,
+      "collection": "everyday-colour",
+      "material": "glass beads on gold-plated brass hoops",
+      "image": "JD-ER-045.jpg",
+      "featured": true,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Candy Glass Bead Hoops (JD-ER-045), ₹390. Is it available?"
+    },
+    {
+      "id": "JD-BR-045",
+      "name": "Pastel Resin Charm Bracelet",
+      "price": 430,
+      "collection": "everyday-colour",
+      "material": "acrylic resin charms on gold-plated brass chain",
+      "image": "JD-BR-045.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Pastel Resin Charm Bracelet (JD-BR-045), ₹430. Is it available?"
+    },
+    {
+      "id": "JD-AK-045",
+      "name": "Glass Pearl Anklet",
+      "price": 470,
+      "collection": "everyday-colour",
+      "material": "glass pearl beads on gold-plated brass chain",
+      "image": "JD-AK-045.jpg",
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order the Glass Pearl Anklet (JD-AK-045), ₹470. Is it available?"
+    }
+  ]
+}
