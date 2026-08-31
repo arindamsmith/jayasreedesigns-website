@@ -20,9 +20,11 @@ directory set to the project root.
 
 ## Local preview
 
-The Collections and Home pages read `assets/products.json` with `fetch()`,
-which browsers block over the `file://` protocol. Run any static server
-from the project root:
+Every page reads `assets/products.json` with `fetch()` (the shop grid, and
+the brand/contact hydration in `site.js`), which browsers block over the
+`file://` protocol. Opened as a bare file the pages still render — they
+fall back to the text baked into the HTML — but to see live data run any
+static server from the project root:
 
 ```
 python -m http.server 8080
@@ -72,16 +74,54 @@ introduce a genuinely new material family.
 
 ---
 
-## Brand / contact details
+## Brand / contact details — edit ONE place
 
-Hard-coded in the page headers/footers and in `assets/products.json`
-(`brand` block). Search-and-replace across `*.html` if the WhatsApp
-number, Instagram handle or email ever change:
+All brand and contact details live in the `brand` block at the top of
+`assets/products.json`:
 
-- WhatsApp Business: `918910661634`  (links use `https://wa.me/918910661634`)
-- Instagram: `@jayasreedesigns`
-- Email / studio address: currently placeholders marked `(TBC)` on the
-  Contact page and policy pages.
+```jsonc
+"brand": {
+  "name": "Jayasree Designs",
+  "tagline": "Celebrate yourself with handcrafted elegance",
+  "headerTag": "Handcrafted elegance",
+  "footerBlurb": "Celebrate yourself with handcrafted elegance. Handmade in Kolkata, India.",
+  "instagram": "jayasreedesigns",              // handle without the @
+  "instagramUrl": "https://instagram.com/jayasreedesigns",
+  "whatsappNumber": "918910661634",             // country code + number, no +/spaces
+  "whatsappDisplay": "+91 89106 61634",
+  "whatsappDefaultText": "Hello Jayasree Designs! I found you ...",
+  "email": "jayasreedesigns2026@gmail.com",
+  "addressLine1": "Ultadanga VIII-M Housing",
+  "addressLine2": "20/1 Ultadanga Main Road",
+  "addressLine3": "Kolkata - 700067, WB, India"
+}
+```
+
+`assets/js/site.js` runs on every page, fetches this block, and fills any
+element carrying a hook:
+
+| hook (HTML attribute)        | what `site.js` sets                                   |
+|------------------------------|------------------------------------------------------|
+| `data-jd="name"`             | text ← `brand.name`                                  |
+| `data-jd="tagline"`          | text ← `brand.tagline`                               |
+| `data-jd="header-tag"`       | text ← `brand.headerTag`                             |
+| `data-jd="footer-blurb"`     | text ← `brand.footerBlurb`                           |
+| `data-jd="whatsapp-display"` | text ← `brand.whatsappDisplay`                       |
+| `data-jd="instagram-handle"` | text ← `@` + `brand.instagram`                       |
+| `data-jd="email"`            | text ← `brand.email`                                 |
+| `data-jd="address"`          | text ← name + the three address lines, `<br>` between |
+| `data-jd-wa`                 | `href` ← `wa.me/<number>` (＋ `?text=` from an optional `data-wa-text` on the same element) |
+| `data-jd-ig`                 | `href` ← `brand.instagramUrl`                        |
+| `data-jd-email`              | `href` ← `mailto:<email>` (and text, if the link has no child elements) |
+
+The HTML also contains the current values as plain text/links, so pages
+still read correctly with JS disabled or opened over `file://`. Keep the
+fallback text in sync when you change something important, or just let
+`products.json` be the source of truth once the site is deployed.
+
+**Not hooked up:** the `<title>`/`<meta name="description">` tags and body
+copy (hero, About story, policy clauses) are per-page prose — edit those
+in the HTML directly.
 
 ---
 
@@ -91,16 +131,16 @@ number, Instagram handle or email ever change:
 index.html              Home — hero, story teaser, featured pieces
 collections.html         Filterable shop (collection / material / price)
 about.html               Solo-maker story
-contact.html             WhatsApp, Instagram, email + address placeholders
-shipping-policy.html      Scaffold: dispatch days, couriers, delivery windows
-refund-policy.html        Scaffold: cancellation window, refund timeline, non-returnable
-privacy-policy.html       Scaffold
-terms.html                Scaffold
+contact.html             WhatsApp, Instagram, email, studio address
+shipping-policy.html      Dispatch days, courier handling, delivery windows
+refund-policy.html        Cancellation window, refund timeline, non-returnable
+privacy-policy.html       What we collect, sharing, retention
+terms.html                Orders, pricing, handmade variation, liability
 404.html                  Custom not-found page
 assets/
-  products.json           ← the single source of truth for the catalogue
+  products.json           ← single source of truth: catalogue + brand block
   css/styles.css           one stylesheet, design tokens as CSS custom properties
-  js/site.js               header/nav/search/menu behaviour (all pages)
+  js/site.js               header/nav/search/menu + brand hydration (all pages)
   js/products.js            reads products.json, renders Home + Collections
   images/
     logo.jpeg              header logo + favicon
