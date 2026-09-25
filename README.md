@@ -148,7 +148,8 @@ assets/
     products/              flat folder, one photo per product id
       _placeholder.svg     fallback art (also generated inline by JS)
 _headers                  Cloudflare Pages caching + security headers
-robots.txt
+robots.txt                points crawlers at sitemap.xml
+sitemap.xml               page list for search engines (update the domain if it changes)
 ```
 
 ---

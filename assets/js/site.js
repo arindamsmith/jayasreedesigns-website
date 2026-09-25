@@ -125,7 +125,12 @@
   function loadBrand() {
     fetch("assets/products.json", { cache: "no-cache" })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { if (d && d.brand) { window.JD.brand = d.brand; hydrateBrand(d.brand); } })
+      .then(function (d) {
+        if (!d || !d.brand) return;
+        window.JD.brand = d.brand;
+        if (d.brand.whatsappNumber) window.JD.whatsappNumber = d.brand.whatsappNumber;
+        hydrateBrand(d.brand);
+      })
       .catch(function () { /* file:// or offline — HTML fallbacks stay */ });
   }
 

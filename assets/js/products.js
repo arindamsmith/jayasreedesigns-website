@@ -83,6 +83,13 @@
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   }
 
+  // WhatsApp number comes from the brand block in products.json; the
+  // constant in site.js is only a fallback if that block is missing.
+  function waNumber(data) {
+    return (data.brand && data.brand.whatsappNumber) ||
+      (window.JD && window.JD.whatsappNumber) || "918910661634";
+  }
+
   function getParams() {
     return new URLSearchParams(location.search);
   }
@@ -120,7 +127,7 @@
       img.src = placeholderDataURI(product.name);
     });
 
-    var waHref = "https://wa.me/" + (window.JD ? window.JD.whatsappNumber : "918910661634") +
+    var waHref = "https://wa.me/" + waNumber(data) +
       "?text=" + encodeURIComponent(product.whatsapp);
 
     return el("article", { class: "product-card", "data-id": product.id }, [
@@ -353,7 +360,7 @@
           el("p", { text: "Try removing a filter, or message us on WhatsApp for a custom piece." }),
           el("a", {
             class: "btn btn--sm",
-            href: "https://wa.me/918910661634?text=" + encodeURIComponent("Hello Jayasree Designs! I'm looking for something specific — can you help?"),
+            href: "https://wa.me/" + waNumber(data) + "?text=" + encodeURIComponent("Hello Jayasree Designs! I'm looking for something specific — can you help?"),
             target: "_blank", rel: "noopener", text: "Ask on WhatsApp"
           })
         ]));
