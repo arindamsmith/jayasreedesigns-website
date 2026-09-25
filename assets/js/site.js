@@ -19,12 +19,15 @@
 
   /* ---- active nav link ------------------------------------------------- */
   function markActiveNav() {
-    var path = location.pathname.split("/").pop() || "index.html";
+    // The host serves pages without ".html" (/about), locally they keep it
+    // (/about.html) — compare page names with the extension stripped.
+    function page(p) { return (p.replace(/\.html$/, "") || "index"); }
+    var path = page(location.pathname.split("/").pop());
     var links = document.querySelectorAll(".nav a, .footer-nav a");
     links.forEach(function (a) {
       var href = a.getAttribute("href");
       if (!href) return;
-      if (href === path || (path === "" && href === "index.html")) {
+      if (page(href) === path) {
         if (a.closest(".nav")) a.setAttribute("aria-current", "page");
       }
     });
