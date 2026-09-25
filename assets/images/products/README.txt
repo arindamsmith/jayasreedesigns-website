@@ -1,20 +1,21 @@
 Product photos go here — one flat folder, no subfolders.
 
-Name every file after the product's id from ../../products.json:
+Name every file after the product's id from ../../products.json, plus
+a photo number. -1 is the main photo:
 
-    JD-AK-045.jpg      anklet
-    JD-BN-001.jpg      bangle
-    JD-BR-014.jpg      bracelet
-    JD-ER-001.jpg      earrings
-    JD-NK-001.jpg      necklace
-    JD-RG-001.jpg      ring
+    JD-ER-109-1.jpg    earrings, main photo
+    JD-ER-109-2.jpg    earrings, 2nd photo
+    JD-NK-068-1.jpg    necklace set
+    JD-PER-014-1.jpg   polymer clay earrings
+    JD-PNK-003-1.jpg   polymer clay necklace set
 
-The category prefix (AK / BN / BR / ER / NK / RG) keeps this folder
-grouped by type even though it is flat.
+List every photo, in order, in that product's "images" array in
+products.json.
 
-- Square (1:1) images look best, ~1000x1000px.
-- .jpg is referenced in products.json; use .jpg (or change the
-  "image" value in products.json to match your file).
-- Any product with no matching photo shows an auto-generated
-  "photo coming soon" placeholder, so nothing breaks in the meantime.
+- JPEG, longest side no more than 1800px, quality ~82.
+- Replacing a photo? Use a new filename (e.g. JD-ER-109-1b.jpg) and
+  update "images" -- browsers may show the old one for up to a day
+  if the name is reused.
+- A listed photo that is missing shows an auto-generated
+  "photo coming soon" placeholder, so nothing breaks.
 - _placeholder.svg in this folder is that fallback art.

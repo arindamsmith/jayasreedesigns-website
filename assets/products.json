@@ -18,24 +18,49 @@
   },
   "collections": [
     {
-      "id": "handcrafted-elegance",
-      "name": "Handcrafted Elegance",
-      "blurb": "Statement pieces in gold-plated brass — refined lines, a little sparkle, made for occasions."
+      "id": "taar-shilpa",
+      "name": "Taar Shilpa",
+      "blurb": "Wire art — wire hand-shaped into spirals, loops and lotus forms."
     },
     {
-      "id": "ethnic-soul",
-      "name": "Ethnic Soul",
-      "blurb": "Oxidised finishes, temple motifs and terracotta — rooted in tradition, worn every day."
+      "id": "mukta-ghar",
+      "name": "Mukta Ghar",
+      "blurb": "The pearl house — glass pearl earrings, drops and necklace sets."
     },
     {
-      "id": "wire-art",
-      "name": "Wire Art",
-      "blurb": "Hand-wrapped copper and coloured wire, shaped one loop at a time — no two are identical."
+      "id": "triveni",
+      "name": "Triveni",
+      "blurb": "Three-layer necklaces."
     },
     {
-      "id": "everyday-colour",
-      "name": "Everyday Colour",
-      "blurb": "Glass beads, seed beads and resin in cheerful tones — light, playful, easy to layer."
+      "id": "dwimala",
+      "name": "Dwimala",
+      "blurb": "Two-layer necklaces."
+    },
+    {
+      "id": "ekavali",
+      "name": "Ekavali",
+      "blurb": "Single-strand necklaces."
+    },
+    {
+      "id": "nitya",
+      "name": "Nitya",
+      "blurb": "The everyday edit — light, easy pieces to wear any day."
+    },
+    {
+      "id": "shaaj-bagan",
+      "name": "Shaaj Bagan",
+      "blurb": "The occasion edit — pieces for festivals, weddings and evenings out."
+    },
+    {
+      "id": "mrinmayi",
+      "name": "Mrinmayi",
+      "blurb": "Polymer clay art — hand-sculpted flowers, bows and motifs."
+    },
+    {
+      "id": "radhika",
+      "name": "Radhika",
+      "blurb": "Premium art pieces."
     }
   ],
   "priceRanges": [
@@ -46,164 +71,158 @@
   ],
   "products": [
     {
-      "id": "JD-NK-001",
-      "name": "Emerald-Glass Drop Pendant Necklace",
-      "price": 1650,
-      "collection": "handcrafted-elegance",
-      "material": "gold-plated brass with faceted green glass stone",
-      "image": "JD-NK-001.jpg",
+      "id": "JD-ER-109",
+      "name": "Sihaaya",
+      "description": "Asymmetric glass pearl cascade with chains",
+      "price": 399,
+      "collections": ["mukta-ghar", "nitya"],
+      "material": "glass pearls with brass and aluminium chains",
+      "images": ["JD-ER-109-1.jpg", "JD-ER-109-2.jpg", "JD-ER-109-3.jpg", "JD-ER-109-4.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Emerald-Glass Drop Pendant Necklace (JD-NK-001), ₹1650. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Sihaaya (JD-ER-109). Is it available?"
     },
     {
-      "id": "JD-ER-001",
-      "name": "Kundan-Style Chandbali Earrings",
-      "price": 1250,
-      "collection": "handcrafted-elegance",
-      "material": "gold-plated brass with kundan-style resin stones",
-      "image": "JD-ER-001.jpg",
+      "id": "JD-ER-119",
+      "name": "Ananta",
+      "description": "Hand-wrapped serpentine wire art",
+      "price": 399,
+      "collections": ["taar-shilpa", "nitya"],
+      "material": "hand-wrapped wire",
+      "images": ["JD-ER-119-1.jpg", "JD-ER-119-2.jpg", "JD-ER-119-3.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Kundan-Style Chandbali Earrings (JD-ER-001), ₹1250. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Ananta (JD-ER-119). Is it available?"
     },
     {
-      "id": "JD-BN-001",
-      "name": "Filigree Openwork Cuff Bangle",
-      "price": 1450,
-      "collection": "handcrafted-elegance",
-      "material": "gold-plated brass filigree",
-      "image": "JD-BN-001.jpg",
-      "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Filigree Openwork Cuff Bangle (JD-BN-001), ₹1450. Is it available?"
-    },
-    {
-      "id": "JD-RG-001",
-      "name": "Solitaire Cocktail Ring",
-      "price": 850,
-      "collection": "handcrafted-elegance",
-      "material": "gold-plated brass with cubic zirconia",
-      "image": "JD-RG-001.jpg",
-      "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Solitaire Cocktail Ring (JD-RG-001), ₹850. Is it available?"
-    },
-    {
-      "id": "JD-NK-014",
-      "name": "Oxidised Temple Coin Necklace",
-      "price": 1350,
-      "collection": "ethnic-soul",
-      "material": "oxidised German silver (nickel-brass alloy)",
-      "image": "JD-NK-014.jpg",
+      "id": "JD-ER-128",
+      "name": "Padmaja",
+      "description": "Wire hand-wrapped in lotus motif with glass pearl",
+      "price": 399,
+      "collections": ["taar-shilpa", "mukta-ghar"],
+      "material": "hand-wrapped wire with glass pearl",
+      "images": ["JD-ER-128-1.jpg", "JD-ER-128-2.jpg", "JD-ER-128-3.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Oxidised Temple Coin Necklace (JD-NK-014), ₹1350. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Padmaja (JD-ER-128). Is it available?"
     },
     {
-      "id": "JD-ER-014",
-      "name": "Jhumka Bell Drop Earrings",
-      "price": 780,
-      "collection": "ethnic-soul",
-      "material": "oxidised German silver with glass beads",
-      "image": "JD-ER-014.jpg",
+      "id": "JD-ER-131",
+      "name": "Titli",
+      "description": "Pink butterflies on glass pearl dangles",
+      "price": 299,
+      "collections": ["mukta-ghar", "nitya"],
+      "material": "glass pearls with pink butterfly charms",
+      "images": ["JD-ER-131-1.jpg", "JD-ER-131-2.jpg", "JD-ER-131-3.jpg", "JD-ER-131-4.jpg"],
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Titli (JD-ER-131). Is it available?"
+    },
+    {
+      "id": "JD-ER-134",
+      "name": "Prajapati",
+      "description": "Butterfly, tourmaline and chains",
+      "price": 349,
+      "collections": ["nitya"],
+      "material": "tourmaline with butterfly charms and brass and aluminium chains",
+      "images": ["JD-ER-134-1.jpg", "JD-ER-134-2.jpg", "JD-ER-134-3.jpg", "JD-ER-134-4.jpg"],
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Prajapati (JD-ER-134). Is it available?"
+    },
+    {
+      "id": "JD-NK-055",
+      "name": "Rajanya",
+      "description": "Hand-wrapped wire work in a unique glass pearl chain design",
+      "price": 599,
+      "collections": ["ekavali", "mukta-ghar"],
+      "material": "hand-wrapped wire with glass pearls",
+      "images": ["JD-NK-055-1.jpg", "JD-NK-055-2.jpg", "JD-NK-055-3.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Jhumka Bell Drop Earrings (JD-ER-014), ₹780. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Rajanya (JD-NK-055). Is it available?"
     },
     {
-      "id": "JD-ER-015",
-      "name": "Terracotta Peacock Studs",
-      "price": 450,
-      "collection": "ethnic-soul",
-      "material": "hand-painted terracotta clay with brass posts",
-      "image": "JD-ER-015.jpg",
-      "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Terracotta Peacock Studs (JD-ER-015), ₹450. Is it available?"
-    },
-    {
-      "id": "JD-BR-014",
-      "name": "Antique Ghungroo Charm Bracelet",
-      "price": 690,
-      "collection": "ethnic-soul",
-      "material": "oxidised brass with brass ghungroo bells",
-      "image": "JD-BR-014.jpg",
-      "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Antique Ghungroo Charm Bracelet (JD-BR-014), ₹690. Is it available?"
-    },
-    {
-      "id": "JD-NK-030",
-      "name": "Wire-Wrapped Quartz-Style Pendant",
-      "price": 880,
-      "collection": "wire-art",
-      "material": "hand-wrapped copper wire with clear glass quartz-style stone",
-      "image": "JD-NK-030.jpg",
+      "id": "JD-NK-068",
+      "name": "Rajmata",
+      "description": "Two-layered square-cut onyx beads and glass pearls",
+      "price": 1399,
+      "collections": ["dwimala", "mukta-ghar", "shaaj-bagan"],
+      "material": "square-cut onyx beads and glass pearls",
+      "images": ["JD-NK-068-1.jpg", "JD-NK-068-2.jpg", "JD-NK-068-3.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Wire-Wrapped Quartz-Style Pendant (JD-NK-030), ₹880. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Rajmata (JD-NK-068). Is it available?"
     },
     {
-      "id": "JD-ER-030",
-      "name": "Copper Wire Leaf Earrings",
-      "price": 520,
-      "collection": "wire-art",
-      "material": "hand-wrapped copper wire",
-      "image": "JD-ER-030.jpg",
+      "id": "JD-NK-070",
+      "name": "Raajasi",
+      "description": "Glass pearls and tourmalines",
+      "price": 999,
+      "collections": ["ekavali", "nitya"],
+      "material": "glass pearls and tourmalines",
+      "images": ["JD-NK-070-1.jpg", "JD-NK-070-2.jpg", "JD-NK-070-3.jpg"],
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Raajasi (JD-NK-070). Is it available?"
+    },
+    {
+      "id": "JD-PER-001",
+      "name": "Sohana",
+      "description": "Polymer clay blue buttercups with beaded fringe dangles",
+      "price": 499,
+      "collections": ["mrinmayi", "shaaj-bagan"],
+      "material": "polymer clay with glass beads",
+      "images": ["JD-PER-001-1.jpg", "JD-PER-001-2.jpg", "JD-PER-001-3.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Copper Wire Leaf Earrings (JD-ER-030), ₹520. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Sohana (JD-PER-001). Is it available?"
     },
     {
-      "id": "JD-RG-030",
-      "name": "Spiral Wrap Statement Ring",
-      "price": 320,
-      "collection": "wire-art",
-      "material": "enamel-coated copper-core wire",
-      "image": "JD-RG-030.jpg",
+      "id": "JD-PER-014",
+      "name": "Gulabi",
+      "description": "Polymer clay roses on a glass pearl drop",
+      "price": 399,
+      "collections": ["mrinmayi", "nitya"],
+      "material": "polymer clay with glass pearl drop",
+      "images": ["JD-PER-014-1.jpg", "JD-PER-014-2.jpg", "JD-PER-014-3.jpg"],
       "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Spiral Wrap Statement Ring (JD-RG-030), ₹320. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Gulabi (JD-PER-014). Is it available?"
     },
     {
-      "id": "JD-BR-030",
-      "name": "Beaded Wire Wrap Bangle",
-      "price": 560,
-      "collection": "wire-art",
-      "material": "copper-core wire with glass seed beads",
-      "image": "JD-BR-030.jpg",
+      "id": "JD-PER-015",
+      "name": "Mallika",
+      "description": "Polymer clay florals in whites and greens",
+      "price": 499,
+      "collections": ["mrinmayi", "nitya"],
+      "material": "polymer clay with marbled beads",
+      "images": ["JD-PER-015-1.jpg", "JD-PER-015-2.jpg", "JD-PER-015-3.jpg"],
       "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Beaded Wire Wrap Bangle (JD-BR-030), ₹560. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Mallika (JD-PER-015). Is it available?"
     },
     {
-      "id": "JD-NK-045",
-      "name": "Layered Seed Bead Necklace",
-      "price": 540,
-      "collection": "everyday-colour",
-      "material": "glass seed beads on nylon thread with brass clasp",
-      "image": "JD-NK-045.jpg",
+      "id": "JD-PER-018",
+      "name": "Priyashi",
+      "description": "Polymer clay shimmering blushed bows with glass pearls",
+      "price": 299,
+      "collections": ["mrinmayi", "nitya"],
+      "material": "polymer clay with glass pearls",
+      "images": ["JD-PER-018-1.jpg", "JD-PER-018-2.jpg", "JD-PER-018-3.jpg"],
+      "featured": false,
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Priyashi (JD-PER-018). Is it available?"
+    },
+    {
+      "id": "JD-PNK-003",
+      "name": "Padmavati",
+      "description": "Polymer clay lotuses and glass pearls",
+      "price": 1099,
+      "collections": ["mrinmayi", "mukta-ghar", "ekavali"],
+      "material": "polymer clay with glass pearls",
+      "images": ["JD-PNK-003-1.jpg", "JD-PNK-003-2.jpg", "JD-PNK-003-3.jpg"],
       "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Layered Seed Bead Necklace (JD-NK-045), ₹540. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Padmavati (JD-PNK-003). Is it available?"
     },
     {
-      "id": "JD-ER-045",
-      "name": "Candy Glass Bead Hoops",
-      "price": 390,
-      "collection": "everyday-colour",
-      "material": "glass beads on gold-plated brass hoops",
-      "image": "JD-ER-045.jpg",
-      "featured": true,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Candy Glass Bead Hoops (JD-ER-045), ₹390. Is it available?"
-    },
-    {
-      "id": "JD-BR-045",
-      "name": "Pastel Resin Charm Bracelet",
-      "price": 430,
-      "collection": "everyday-colour",
-      "material": "acrylic resin charms on gold-plated brass chain",
-      "image": "JD-BR-045.jpg",
+      "id": "JD-PNK-004",
+      "name": "Karnika",
+      "description": "Polymer clay roses and glass pearls",
+      "price": 1099,
+      "collections": ["mrinmayi", "mukta-ghar", "ekavali"],
+      "material": "polymer clay with glass pearls",
+      "images": ["JD-PNK-004-1.jpg", "JD-PNK-004-2.jpg", "JD-PNK-004-3.jpg"],
       "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Pastel Resin Charm Bracelet (JD-BR-045), ₹430. Is it available?"
-    },
-    {
-      "id": "JD-AK-045",
-      "name": "Glass Pearl Anklet",
-      "price": 470,
-      "collection": "everyday-colour",
-      "material": "glass pearl beads on gold-plated brass chain",
-      "image": "JD-AK-045.jpg",
-      "featured": false,
-      "whatsapp": "Hello Jayasree Designs! I'd like to order the Glass Pearl Anklet (JD-AK-045), ₹470. Is it available?"
+      "whatsapp": "Hello Jayasree Designs! I'd like to order Karnika (JD-PNK-004). Is it available?"
     }
   ]
 }

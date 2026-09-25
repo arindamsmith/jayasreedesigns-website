@@ -44,26 +44,35 @@ Each product object:
 
 | key         | notes                                                                 |
 |-------------|-----------------------------------------------------------------------|
-| `id`        | e.g. `JD-NK-001`. Also the image filename stem. Category prefix keeps the flat folder sorted (`AK` anklet, `BN` bangle, `BR` bracelet, `ER` earrings, `NK` necklace, `RG` ring). |
+| `id`        | e.g. `JD-NK-001`. Also the image filename stem. Category prefix keeps the flat folder sorted (`ER` earrings, `NK` necklace set, `PER` polymer clay earrings, `PNK` polymer clay necklace set). |
 | `name`      | shown on the card and in the WhatsApp message                        |
+| `description` | one short line shown under the name on the card (also searchable) |
 | `price`     | number, INR, no symbol (e.g. `1450`)                                  |
-| `collection`| must match a `collections[].id` (`handcrafted-elegance`, `ethnic-soul`, `wire-art`, `everyday-colour`) |
-| `material`  | full honest description — `gold-plated brass`, `glass pearl`, never `gold` / `pearl` alone |
-| `image`     | filename only, lives in `assets/images/products/`                    |
-| `featured`  | `true` puts it on the Home page for its collection                   |
+| `collections`| list of `collections[].id` values the piece belongs to — it appears under each. The first one is the label shown on the card. e.g. `["mrinmayi", "mukta-ghar", "ekavali"]`. Ids: `taar-shilpa`, `mukta-ghar`, `triveni`, `dwimala`, `ekavali`, `nitya`, `shaaj-bagan`, `mrinmayi`, `radhika` |
+| `material`  | full honest description — `glass pearl`, `brass and aluminium chain`, never `pearl` / `gold` alone. The same goes for `name` and `description` |
+| `images`    | array of filenames in `assets/images/products/`, in display order — the first is the main photo. e.g. `["JD-NK-001.jpg", "JD-NK-001-2.jpg"]` |
+| `featured`  | `true` puts it on the Home page, under each of its collections       |
 | `whatsapp`  | the exact message pre-filled when the buyer taps *Order on WhatsApp* |
 
-To **add a product**: add an object to `products`, drop
-`assets/images/products/<id>.jpg` in place, done.
+To **add a product**: add an object to `products`, drop its photos in
+`assets/images/products/` (`<id>-1.jpg`, `<id>-2.jpg`…), list them in `images`, done.
+To **add more photos** of a product: drop `<id>-4.jpg`, `<id>-5.jpg`… in the
+same folder and add them to its `images` array. Cards with 2+ photos show
+dots under the image (tap or swipe to switch); tapping the photo opens a
+full-screen viewer with arrows (keyboard ← → and Esc work too).
 To **change a price / name / photo**: edit the field (and swap the file).
 
 ### Product photos
 
 - One flat folder: `assets/images/products/` (no subfolders).
-- Name each file after the product `id`: `JD-NK-001.jpg`, `JD-ER-014.jpg`.
+- Name each file after the product `id` plus a photo number: `JD-NK-068-1.jpg`
+  (main photo), `JD-NK-068-2.jpg`, `JD-NK-068-3.jpg`.
+- **Replacing a photo?** Give the new file a new name (e.g. `JD-NK-068-1b.jpg`)
+  and update `images`. Browsers keep photos for up to a day, so reusing
+  a name can show the old photo to returning visitors until then.
 - Any missing photo falls back to a generated "photo coming soon"
   placeholder automatically, so the grid never breaks.
-- Square images (1:1) look best; ~1000×1000px is plenty.
+- JPEG, longest side no more than 1800px, quality ~82 (roughly 150–300 KB each).
 
 ### Material filter facets
 
@@ -71,6 +80,15 @@ The sidebar's **Material** filter is keyword-matched against each
 product's `material` text (facet list at the top of
 `assets/js/products.js`, `MATERIAL_FACETS`). Add a facet there only if you
 introduce a genuinely new material family.
+
+---
+
+## Changing CSS or JavaScript
+
+Every page loads `styles.css`, `site.js` and `products.js` with a `?v=YYYYMMDD`
+suffix. Browsers cache those files for a week, so **after editing any of
+them, bump the `v=` value in all `.html` files** (one find-and-replace) or
+returning visitors keep the old version.
 
 ---
 

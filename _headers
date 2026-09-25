@@ -11,7 +11,7 @@
   Cache-Control: public, max-age=604800, must-revalidate
 
 /assets/images/*
-  Cache-Control: public, max-age=2592000, immutable
+  Cache-Control: public, max-age=86400
 
 /assets/products.json
   Cache-Control: public, max-age=300, must-revalidate

@@ -9,6 +9,9 @@
    Material filter facets are keyword-matched against each product's
    "material" description so the sidebar stays short. Add/adjust facets in
    MATERIAL_FACETS below if you introduce new materials.
+
+   Each product lists its photos in "images" (first = main photo). Cards
+   with 2+ photos get dots and swipe; tapping a photo opens a lightbox.
    ========================================================================= */
 (function () {
   "use strict";
@@ -16,11 +19,19 @@
   var DATA_URL = "assets/products.json";
   var IMG_BASE = "assets/images/products/";
 
+  // Facets with no matching product are hidden automatically.
   var MATERIAL_FACETS = [
+    { id: "glass-pearl", label: "Glass pearls", test: /glass pearl/i },
+    { id: "polymer-clay", label: "Polymer clay", test: /polymer clay/i },
+    { id: "wire", label: "Hand-wrapped wire", test: /wire/i },
+    { id: "tourmaline", label: "Tourmaline", test: /tourmaline/i },
+    { id: "onyx", label: "Onyx", test: /onyx/i },
+    { id: "chain", label: "Brass & aluminium chains", test: /chain/i },
+    { id: "beads", label: "Beads & beadwork", test: /bead/i },
     { id: "gold-plated-brass", label: "Gold-plated brass", test: /gold-plated brass/i },
     { id: "oxidised-silver", label: "Oxidised / German silver", test: /oxidis|german silver/i },
     { id: "copper-wire", label: "Copper wire", test: /copper/i },
-    { id: "glass", label: "Glass beads & glass pearl", test: /glass/i },
+    { id: "glass-beads", label: "Glass beads", test: /glass bead/i },
     { id: "terracotta", label: "Terracotta clay", test: /terracotta/i },
     { id: "resin", label: "Resin & acrylic", test: /resin|acrylic/i },
     { id: "cz", label: "Cubic zirconia", test: /zirconia/i }
@@ -104,7 +115,13 @@
         return r.json();
       })
       .then(function (data) {
-        data.products.forEach(function (p, i) { p._i = i; });
+        data.products.forEach(function (p, i) {
+          p._i = i;
+          // "collections" is a list (first = the one shown on the card);
+          // a legacy single "collection" string still works.
+          p._colls = Array.isArray(p.collections) ? p.collections
+            : (p.collection ? [p.collection] : []);
+        });
         data._collById = {};
         data.collections.forEach(function (c) { data._collById[c.id] = c; });
         _cache = data;
@@ -112,29 +129,201 @@
       });
   }
 
-  /* --------------------------------------------------------- product card */
-  function card(product, data) {
-    var coll = data._collById[product.collection];
-    var img = el("img", {
-      src: IMG_BASE + product.image,
-      alt: product.name,
-      loading: "lazy",
-      width: "600",
-      height: "600"
+  /* ------------------------------------------------------------- images */
+  // "images" is an array of filenames; the first is the main photo. A legacy
+  // single "image" string still works. null means "no photo yet".
+  function productImages(product) {
+    var list = Array.isArray(product.images) ? product.images.filter(Boolean)
+      : (product.image ? [product.image] : []);
+    return list.length ? list : [null];
+  }
+
+  function imageSrc(file, name) {
+    return file ? IMG_BASE + file : placeholderDataURI(name);
+  }
+
+  // Swap a broken photo for the placeholder. getName() is read at error time
+  // because the same <img> is reused as the photo changes.
+  function withFallback(img, getName) {
+    img.addEventListener("error", function () {
+      if ((img.getAttribute("src") || "").indexOf("data:") === 0) return;
+      img.src = placeholderDataURI(getName());
     });
-    img.addEventListener("error", function handle() {
-      img.removeEventListener("error", handle);
-      img.src = placeholderDataURI(product.name);
+  }
+
+  // Horizontal swipe on touch devices -> onSwipe(+1 next / -1 previous).
+  // The click that some browsers fire after a swipe is swallowed so a swipe
+  // doesn't also open the lightbox.
+  function addSwipe(target, onSwipe) {
+    var x0 = null, y0 = 0, swiped = false;
+    target.addEventListener("touchstart", function (e) {
+      if (e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX;
+      y0 = e.touches[0].clientY;
+      swiped = false;
+    }, { passive: true });
+    target.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        swiped = true;
+        onSwipe(dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+    target.addEventListener("click", function (e) {
+      if (!swiped) return;
+      swiped = false;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }, true);
+  }
+
+  /* ------------------------------------------------------------ lightbox */
+  // One shared dialog, created on first use and appended to <body>.
+  var lb = null;
+
+  function lightbox() {
+    if (lb) return lb;
+
+    var img = el("img", { class: "lightbox-img", alt: "" });
+    var caption = el("p", { class: "lightbox-caption" });
+    var closeBtn = el("button", { class: "lightbox-btn lightbox-close", type: "button", "aria-label": "Close" }, ["×"]);
+    var prevBtn = el("button", { class: "lightbox-btn lightbox-prev", type: "button", "aria-label": "Previous photo" }, ["‹"]);
+    var nextBtn = el("button", { class: "lightbox-btn lightbox-next", type: "button", "aria-label": "Next photo" }, ["›"]);
+    var stage = el("div", { class: "lightbox-stage" }, [img]);
+    var root = el("div", {
+      class: "lightbox", role: "dialog", "aria-modal": "true", "aria-label": "Product photos", hidden: ""
+    }, [stage, caption, prevBtn, nextBtn, closeBtn]);
+
+    lb = { files: [], name: "", index: 0, returnFocus: null };
+
+    function render() {
+      var n = lb.files.length;
+      img.src = imageSrc(lb.files[lb.index], lb.name);
+      img.alt = lb.name + (n > 1 ? " — photo " + (lb.index + 1) + " of " + n : "");
+      caption.textContent = lb.name + (n > 1 ? "  ·  " + (lb.index + 1) + " / " + n : "");
+      prevBtn.hidden = nextBtn.hidden = n < 2;
+    }
+
+    function step(dir) {
+      var n = lb.files.length;
+      if (n < 2) return;
+      lb.index = (lb.index + dir + n) % n;
+      render();
+    }
+
+    function onKey(e) {
+      if (e.key === "Escape") { e.preventDefault(); close(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+      else if (e.key === "Tab") {
+        // keep focus inside the dialog
+        var f = [closeBtn, prevBtn, nextBtn].filter(function (b) { return !b.hidden; });
+        var i = f.indexOf(document.activeElement);
+        e.preventDefault();
+        f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    }
+
+    function close() {
+      root.hidden = true;
+      document.documentElement.classList.remove("lightbox-open");
+      document.removeEventListener("keydown", onKey);
+      if (lb.returnFocus) lb.returnFocus.focus();
+    }
+
+    lb.open = function (files, name, index, from) {
+      lb.files = files;
+      lb.name = name;
+      lb.index = index || 0;
+      lb.returnFocus = from || null;
+      render();
+      root.hidden = false;
+      document.documentElement.classList.add("lightbox-open");
+      document.addEventListener("keydown", onKey);
+      closeBtn.focus();
+    };
+
+    withFallback(img, function () { return lb.name; });
+    prevBtn.addEventListener("click", function () { step(-1); });
+    nextBtn.addEventListener("click", function () { step(1); });
+    closeBtn.addEventListener("click", close);
+    // clicking the dark area around the photo closes it
+    root.addEventListener("click", function (e) {
+      if (e.target === root || e.target === stage) close();
+    });
+    addSwipe(stage, step);
+
+    document.body.appendChild(root);
+    return lb;
+  }
+
+  /* ------------------------------------------------ card photo gallery */
+  // Returns the elements that go at the top of a product card: the photo
+  // (a button that opens the lightbox) and, for 2+ photos, the dot row.
+  function cardGallery(product) {
+    var files = productImages(product);
+    var n = files.length;
+    var index = 0;
+
+    var img = el("img", { loading: "lazy", width: "600", height: "600" });
+    withFallback(img, function () { return product.name; });
+
+    var media = el("button", {
+      class: "product-media" + (n > 1 ? " has-gallery" : ""),
+      type: "button",
+      "aria-label": "View " + (n > 1 ? "all " + n + " photos" : "larger photo") + " of " + product.name
+    }, [img, medallion()]);
+
+    var dots = [];
+    var dotRow = null;
+    if (n > 1) {
+      dotRow = el("div", { class: "product-dots", role: "group", "aria-label": "Photos of " + product.name });
+      files.forEach(function (_, i) {
+        var dot = el("button", { class: "product-dot", type: "button", "aria-label": "Show photo " + (i + 1) + " of " + n });
+        dot.addEventListener("click", function () { show(i); });
+        dots.push(dot);
+        dotRow.appendChild(dot);
+      });
+      addSwipe(media, function (dir) { show(index + dir); });
+    }
+
+    function show(i) {
+      index = (i + n) % n;
+      img.src = imageSrc(files[index], product.name);
+      img.alt = product.name + (n > 1 ? " — photo " + (index + 1) + " of " + n : "");
+      dots.forEach(function (d, j) {
+        if (j === index) d.setAttribute("aria-current", "true");
+        else d.removeAttribute("aria-current");
+      });
+    }
+
+    media.addEventListener("click", function () {
+      lightbox().open(files, product.name, index, media);
     });
 
+    show(0);
+    return [media, dotRow];
+  }
+
+  /* --------------------------------------------------------- product card */
+  function card(product, data) {
+    var mainColl = product._colls[0];
+    var coll = data._collById[mainColl];
     var waHref = "https://wa.me/" + waNumber(data) +
       "?text=" + encodeURIComponent(product.whatsapp);
 
+    var gallery = cardGallery(product);
+
     return el("article", { class: "product-card", "data-id": product.id }, [
-      el("div", { class: "product-media" }, [img, medallion()]),
+      gallery[0],
+      gallery[1],
       el("div", { class: "product-body" }, [
-        el("span", { class: "product-collection tag", text: coll ? coll.name : product.collection }),
+        el("span", { class: "product-collection tag", text: coll ? coll.name : (mainColl || "") }),
         el("h3", { class: "product-name", text: product.name }),
+        product.description ? el("p", { class: "product-desc", text: product.description }) : null,
         el("span", { class: "product-price", text: money(product.price) }),
         el("p", { class: "product-material material", text: product.material }),
         el("a", {
@@ -157,15 +346,19 @@
     return span;
   }
 
+  function inColl(p, id) {
+    return p._colls.indexOf(id) !== -1;
+  }
+
   /* ============================================================ HOME PAGE */
   function initHome(root, data) {
     root.innerHTML = "";
     data.collections.forEach(function (coll) {
       var items = data.products.filter(function (p) {
-        return p.collection === coll.id && p.featured;
+        return inColl(p, coll.id) && p.featured;
       });
       if (!items.length) {
-        items = data.products.filter(function (p) { return p.collection === coll.id; }).slice(0, 3);
+        items = data.products.filter(function (p) { return inColl(p, coll.id); }).slice(0, 3);
       }
       var block = el("div", { class: "collection-block" }, [
         el("div", { class: "collection-head" }, [
@@ -173,11 +366,11 @@
           el("a", { href: "collections.html?collection=" + coll.id, text: "View all →" }),
           el("p", { text: coll.blurb })
         ]),
-        (function () {
+        items.length ? (function () {
           var grid = el("div", { class: "product-grid" });
           items.forEach(function (p) { grid.appendChild(card(p, data)); });
           return grid;
-        })()
+        })() : el("p", { class: "material collection-empty", text: "New pieces coming soon." })
       ]);
       root.appendChild(block);
       root.appendChild(el("div", { class: "section-divider", "aria-hidden": "true" }, [medallion()]));
@@ -249,7 +442,7 @@
 
       body.appendChild(group("Collection",
         data.collections.map(function (c) {
-          return { id: c.id, label: c.name, count: countMatching(function (p) { return p.collection === c.id; }) };
+          return { id: c.id, label: c.name, count: countMatching(function (p) { return inColl(p, c.id); }) };
         }),
         state.collections,
         function (id, on) { toggle("collections", id, on); }));
@@ -297,12 +490,12 @@
       var q = state.q.trim().toLowerCase();
 
       return data.products.filter(function (p) {
-        if (state.collections.length && state.collections.indexOf(p.collection) === -1) return false;
+        if (state.collections.length && !state.collections.some(function (id) { return inColl(p, id); })) return false;
         if (mats.length && !mats.some(function (f) { return f.test.test(p.material); })) return false;
         if (ranges.length && !ranges.some(function (r) { return p.price >= r.min && p.price <= r.max; })) return false;
         if (q) {
-          var coll = data._collById[p.collection];
-          var hay = (p.name + " " + p.material + " " + (coll ? coll.name : "") + " " + p.id).toLowerCase();
+          var collNames = p._colls.map(function (id) { var c = data._collById[id]; return c ? c.name : ""; }).join(" ");
+          var hay = (p.name + " " + (p.description || "") + " " + p.material + " " + collNames + " " + p.id).toLowerCase();
           if (hay.indexOf(q) === -1) return false;
         }
         return true;
