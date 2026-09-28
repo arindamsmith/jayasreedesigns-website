@@ -161,8 +161,8 @@ assets/
   js/site.js               header/nav/search/menu + brand hydration (all pages)
   js/products.js            reads products.json, renders Home + Collections
   images/
-    logo.jpeg              header logo + favicon
-    Banner3.png            story/about imagery
+    logo.jpg               header logo + favicon
+    Banner3.jpg            story/about imagery
     products/              flat folder, one photo per product id
       _placeholder.svg     fallback art (also generated inline by JS)
 _headers                  Cloudflare Pages caching + security headers
