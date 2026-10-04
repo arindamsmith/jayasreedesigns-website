@@ -388,7 +388,7 @@ hr {
   border: 0;
   color: var(--off-white);
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 .header-search input::placeholder { color: rgba(250, 246, 238, 0.5); }
 .header-search input:focus { outline: none; }
@@ -563,6 +563,9 @@ hr {
 .section {
   padding-block: var(--space-5);
 }
+/* the gold eyebrow reads ~2.25:1 on white/off-white — fine on the dark
+   hero/page-header, not on this light section background (WCAG AA needs 4.5:1) */
+.section .eyebrow { color: var(--bottle-green); }
 .section-head {
   text-align: center;
   max-width: 60ch;
@@ -577,6 +580,7 @@ hr {
   align-items: center;
 }
 .story-teaser .media {
+  aspect-ratio: 1672 / 941;
   border: 1px solid rgba(201, 162, 39, 0.4);
   border-radius: var(--radius);
   overflow: hidden;
@@ -692,7 +696,7 @@ hr {
 }
 .results-bar select {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 1rem;
   padding: 0.5em 0.7em;
   border: 1px solid rgba(201, 162, 39, 0.5);
   border-radius: var(--radius);
@@ -724,7 +728,14 @@ hr {
   color: inherit;
   font-size: 1rem;
   line-height: 1;
-  padding: 0;
+  padding: 0.35em;
+  margin: -0.35em -0.35em -0.35em 0.05em;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.chip button:hover,
+.chip button:focus-visible {
+  background: rgba(201, 162, 39, 0.3);
 }
 
 /* product grid */
@@ -824,6 +835,27 @@ hr {
   background: var(--gold);
   transform: scale(1.15);
 }
+
+/* sticky WhatsApp button — pages with no nearby per-item WhatsApp CTA
+   (About, Contact, policy pages) so it's reachable while scrolling/reading */
+.whatsapp-fab {
+  position: fixed;
+  right: var(--space-4);
+  bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  background: #25D366;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 6px 16px rgba(10, 43, 32, 0.35);
+  z-index: 90;
+  transition: transform 0.15s ease;
+}
+.whatsapp-fab:hover,
+.whatsapp-fab:focus-visible { transform: scale(1.08); }
+.whatsapp-fab svg { width: 28px; height: 28px; }
 
 /* lightbox: enlarged photo viewer */
 html.lightbox-open { overflow: hidden; }
@@ -927,7 +959,7 @@ html.lightbox-open { overflow: hidden; }
   color: var(--ink);
 }
 .product-material {
-  color: rgba(28, 38, 32, 0.62);
+  color: rgba(28, 38, 32, 0.72);
   margin: 0;
 }
 .product-body .btn { margin-top: auto; }
