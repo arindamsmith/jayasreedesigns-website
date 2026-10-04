@@ -16,6 +16,8 @@
   "use strict";
 
   var WHATSAPP_NUMBER = "918910661634"; // fallback only; real value comes from products.json
+  var IMG_BASE = "assets/images/products/";
+  var catalog = null; // { products, _collById } — filled once products.json loads
 
   /* ---- active nav link ------------------------------------------------- */
   function markActiveNav() {
@@ -50,22 +52,115 @@
     });
   }
 
-  /* ---- header search --------------------------------------------------- */
+  /* ---- header search + type-ahead --------------------------------------- */
+  function matchesQuery(p, q) {
+    var collNames = (p.collections || []).map(function (id) {
+      var c = catalog._collById[id];
+      return c ? c.name : "";
+    }).join(" ");
+    var hay = (p.name + " " + (p.description || "") + " " + (p.material || "") + " " + collNames + " " + p.id).toLowerCase();
+    return hay.indexOf(q) !== -1;
+  }
+
   function initSearch() {
     var btn = document.querySelector(".search-toggle");
     var box = document.querySelector(".header-search");
     if (!btn || !box) return;
     var input = box.querySelector("input");
+
+    var list = document.createElement("ul");
+    list.className = "search-suggest";
+    list.id = "header-search-suggest";
+    list.setAttribute("role", "listbox");
+    list.hidden = true;
+    box.appendChild(list);
+
+    if (input) {
+      input.setAttribute("role", "combobox");
+      input.setAttribute("aria-autocomplete", "list");
+      input.setAttribute("aria-expanded", "false");
+      input.setAttribute("aria-controls", list.id);
+    }
+
+    function close() {
+      list.hidden = true;
+      list.textContent = "";
+      if (input) input.setAttribute("aria-expanded", "false");
+    }
+
+    function render(q, matches) {
+      list.textContent = "";
+      if (!matches.length) {
+        var empty = document.createElement("li");
+        empty.className = "search-suggest__empty";
+        empty.textContent = "No pieces match “" + q + "”";
+        list.appendChild(empty);
+      } else {
+        matches.slice(0, 6).forEach(function (p) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = "collections.html?q=" + encodeURIComponent(p.name);
+          a.setAttribute("role", "option");
+
+          var img = document.createElement("img");
+          img.src = IMG_BASE + ((p.images && p.images[0]) || "");
+          img.alt = "";
+          img.loading = "lazy";
+
+          var text = document.createElement("span");
+          var name = document.createElement("span");
+          name.className = "search-suggest__name";
+          name.textContent = p.name;
+          var price = document.createElement("span");
+          price.className = "search-suggest__price";
+          price.textContent = window.JD.formatPrice(p.price);
+          text.appendChild(name);
+          text.appendChild(price);
+
+          a.appendChild(img);
+          a.appendChild(text);
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+      }
+      list.hidden = false;
+      if (input) input.setAttribute("aria-expanded", "true");
+    }
+
+    function update() {
+      if (!input) return;
+      var q = input.value.trim().toLowerCase();
+      if (!q) { close(); return; }
+      if (!catalog) return; // products.json still loading — try again once it lands
+      render(q, catalog.products.filter(function (p) { return matchesQuery(p, q); }));
+    }
+
     btn.addEventListener("click", function () {
       var open = box.classList.toggle("is-open");
       btn.setAttribute("aria-expanded", open ? "true" : "false");
       if (open && input) input.focus();
+      if (!open) close();
     });
+
+    if (input) {
+      input.addEventListener("input", update);
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") close();
+      });
+    }
+
     box.addEventListener("submit", function (e) {
       e.preventDefault();
       var q = (input && input.value || "").trim();
       location.href = "collections.html" + (q ? "?q=" + encodeURIComponent(q) : "");
     });
+
+    document.addEventListener("click", function (e) {
+      if (!box.contains(e.target)) close();
+    });
+
+    // once products.json resolves, re-run for whatever the visitor already typed
+    box._jdRetrySuggestions = update;
   }
 
   /* ---- footer year -------------------------------------------------- */
@@ -125,14 +220,23 @@
     });
   }
 
-  function loadBrand() {
+  function loadCatalog() {
     fetch("assets/products.json", { cache: "no-cache" })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (!d || !d.brand) return;
-        window.JD.brand = d.brand;
-        if (d.brand.whatsappNumber) window.JD.whatsappNumber = d.brand.whatsappNumber;
-        hydrateBrand(d.brand);
+        if (!d) return;
+        if (d.brand) {
+          window.JD.brand = d.brand;
+          if (d.brand.whatsappNumber) window.JD.whatsappNumber = d.brand.whatsappNumber;
+          hydrateBrand(d.brand);
+        }
+        if (Array.isArray(d.products)) {
+          var collById = {};
+          (d.collections || []).forEach(function (c) { collById[c.id] = c; });
+          catalog = { products: d.products, _collById: collById };
+          var box = document.querySelector(".header-search");
+          if (box && box._jdRetrySuggestions) box._jdRetrySuggestions();
+        }
       })
       .catch(function () { /* file:// or offline — HTML fallbacks stay */ });
   }
@@ -148,6 +252,6 @@
     initMenu();
     initSearch();
     setYear();
-    loadBrand();
+    loadCatalog();
   });
 })();
