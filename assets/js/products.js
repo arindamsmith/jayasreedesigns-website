@@ -138,8 +138,19 @@
     return list.length ? list : [null];
   }
 
+  // Product photos ship as two WebP sizes: a small one for card thumbnails
+  // and a larger one for the lightbox zoom, so zooming in on jewellery
+  // detail stays sharp without shipping full-size photos to every grid card.
+  function webpName(file) {
+    return file.replace(/\.(jpe?g|png)$/i, ".webp");
+  }
+
   function imageSrc(file, name) {
-    return file ? IMG_BASE + file : placeholderDataURI(name);
+    return file ? IMG_BASE + webpName(file) : placeholderDataURI(name);
+  }
+
+  function thumbSrc(file, name) {
+    return file ? IMG_BASE + "thumb/" + webpName(file) : placeholderDataURI(name);
   }
 
   // Swap a broken photo for the placeholder. getName() is read at error time
@@ -292,7 +303,7 @@
 
     function show(i) {
       index = (i + n) % n;
-      img.src = imageSrc(files[index], product.name);
+      img.src = thumbSrc(files[index], product.name);
       img.alt = product.name + (n > 1 ? " — photo " + (index + 1) + " of " + n : "");
       dots.forEach(function (d, j) {
         if (j === index) d.setAttribute("aria-current", "true");
@@ -317,12 +328,23 @@
 
     var gallery = cardGallery(product);
 
+    var shareBtn = el("button", {
+      type: "button",
+      class: "share-btn",
+      "aria-label": "Share " + product.name,
+      title: "Share"
+    }, [shareIcon()]);
+    shareBtn.addEventListener("click", function () { shareProduct(product); });
+
     return el("article", { class: "product-card", "data-id": product.id }, [
       gallery[0],
       gallery[1],
       el("div", { class: "product-body" }, [
         el("span", { class: "product-collection tag", text: coll ? coll.name : (mainColl || "") }),
-        el("h3", { class: "product-name", text: product.name }),
+        el("div", { class: "product-name-row" }, [
+          el("h3", { class: "product-name", text: product.name }),
+          shareBtn
+        ]),
         product.description ? el("p", { class: "product-desc", text: product.description }) : null,
         el("span", { class: "product-price", text: money(product.price) }),
         el("p", { class: "product-material material", text: product.material }),
@@ -346,6 +368,32 @@
     return span;
   }
 
+  // classic Material/Android "share" glyph — three nodes joined by lines
+  function shareIcon() {
+    var span = el("span", { class: "share-icon", "aria-hidden": "true", html:
+      '<svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%">' +
+      '<path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>' +
+      "</svg>" });
+    return span;
+  }
+
+  function shareProduct(product) {
+    var url = location.origin + "/collections.html?q=" + encodeURIComponent(product.name);
+    var text = product.name + " — " + money(product.price) + " · Jayasree Designs";
+
+    // navigator.share needs a secure context (HTTPS, or localhost) — on the
+    // live site over HTTPS this opens the native share sheet. Where it's
+    // unavailable (older/desktop browsers, or testing over a plain-HTTP LAN
+    // address), go straight to a WhatsApp share instead of silently failing,
+    // since that's where these links actually get sent.
+    if (navigator.share) {
+      navigator.share({ title: product.name + " — Jayasree Designs", text: text, url: url })
+        .catch(function () { /* user cancelled — no-op */ });
+      return;
+    }
+    window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank", "noopener");
+  }
+
   function inColl(p, id) {
     return p._colls.indexOf(id) !== -1;
   }
@@ -363,7 +411,7 @@
       var block = el("div", { class: "collection-block" }, [
         el("div", { class: "collection-head" }, [
           el("h3", { text: coll.name }),
-          el("a", { href: "collections.html?collection=" + coll.id, text: "View all →" }),
+          el("a", { href: "collections.html?collection=" + coll.id, "aria-label": "View all " + coll.name + " pieces", text: "View all →" }),
           el("p", { text: coll.blurb })
         ]),
         items.length ? (function () {

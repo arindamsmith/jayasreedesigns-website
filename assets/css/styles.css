@@ -207,6 +207,7 @@ hr {
 .btn--sm { padding: 0.65em 1.1em; font-size: 0.78rem; }
 
 .wa-icon { width: 1.1em; height: 1.1em; flex: none; }
+.share-icon { width: 1.1em; height: 1.1em; flex: none; }
 
 /* =========================================================================
    Medallion motif (echoes the JD monogram badge)
@@ -580,7 +581,7 @@ hr {
   align-items: center;
 }
 .story-teaser .media {
-  aspect-ratio: 1672 / 941;
+  aspect-ratio: 1400 / 788;
   border: 1px solid rgba(201, 162, 39, 0.4);
   border-radius: var(--radius);
   overflow: hidden;
@@ -602,7 +603,7 @@ hr {
 }
 .collection-head h3 { margin: 0; }
 .collection-head p { margin: 0; font-size: 0.9rem; color: rgba(28,38,32,0.7); flex: 1 1 100%; }
-.collection-head a { color: var(--gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; white-space: nowrap; }
+.collection-head a { color: var(--bottle-green); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; white-space: nowrap; }
 .collection-head a:hover { text-decoration: underline; }
 
 /* =========================================================================
@@ -936,8 +937,14 @@ html.lightbox-open { overflow: hidden; }
   flex: 1;
 }
 .product-collection {
-  color: var(--gold);
+  color: var(--bottle-green);
   font-size: 0.62rem;
+}
+.product-name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
 }
 .product-name {
   font-family: var(--font-display);
@@ -946,6 +953,25 @@ html.lightbox-open { overflow: hidden; }
   margin: 0;
   line-height: 1.2;
 }
+.share-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  color: rgba(28, 38, 32, 0.55);
+  border-radius: 50%;
+  /* visually small, but padding + negative margin keeps the real tap area ~40px */
+  padding: 11px;
+  margin: -11px -11px -11px 0;
+  cursor: pointer;
+}
+.share-btn:hover,
+.share-btn:focus-visible {
+  color: var(--bottle-green);
+  background: rgba(201, 162, 39, 0.15);
+}
+.share-btn .share-icon { width: 17px; height: 17px; }
 .product-desc {
   margin: 0;
   font-size: 0.9rem;
