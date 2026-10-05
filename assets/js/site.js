@@ -220,6 +220,40 @@
     });
   }
 
+  var SITE_URL = "https://www.jayasreedesigns.com";
+
+  // Writes (or replaces) a <script type="application/ld+json"> tag by id.
+  // Always rebuilt from the live brand/product data — never hand-edited, so
+  // there's nothing to keep in sync when a product or brand detail changes.
+  function setJSONLD(id, data) {
+    var el = document.getElementById(id);
+    if (!el) {
+      el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.id = id;
+      document.head.appendChild(el);
+    }
+    el.textContent = JSON.stringify(data);
+  }
+
+  function injectOrganizationSchema(brand) {
+    if (!brand) return;
+    var address = [brand.name, brand.addressLine1, brand.addressLine2, brand.addressLine3]
+      .filter(Boolean).join(", ");
+    setJSONLD("ld-organization", {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: brand.name,
+      url: SITE_URL + "/",
+      logo: SITE_URL + "/assets/images/logo.jpg",
+      image: SITE_URL + "/assets/images/logo.jpg",
+      description: brand.footerBlurb || brand.tagline,
+      email: brand.email || undefined,
+      address: address ? { "@type": "PostalAddress", streetAddress: address, addressCountry: "IN" } : undefined,
+      sameAs: [brand.instagramUrl].filter(Boolean)
+    });
+  }
+
   function loadCatalog() {
     fetch("assets/products.json", { cache: "no-cache" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -229,6 +263,7 @@
           window.JD.brand = d.brand;
           if (d.brand.whatsappNumber) window.JD.whatsappNumber = d.brand.whatsappNumber;
           hydrateBrand(d.brand);
+          injectOrganizationSchema(d.brand);
         }
         if (Array.isArray(d.products)) {
           var collById = {};

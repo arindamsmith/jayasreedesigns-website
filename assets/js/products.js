@@ -430,8 +430,47 @@
   }
 
   /* ===================================================== COLLECTIONS PAGE */
+  // Product structured data for the whole catalogue, rebuilt from the same
+  // data every load — never hand-edited, so it can't go stale.
+  function injectProductListSchema(data) {
+    var SITE_URL = "https://www.jayasreedesigns.com";
+    var el = document.getElementById("ld-products");
+    if (!el) {
+      el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.id = "ld-products";
+      document.head.appendChild(el);
+    }
+    el.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: data.products.map(function (p, i) {
+        var files = productImages(p);
+        return {
+          "@type": "ListItem",
+          position: i + 1,
+          item: {
+            "@type": "Product",
+            name: p.name,
+            description: p.description || undefined,
+            sku: p.id,
+            image: files[0] ? SITE_URL + "/" + IMG_BASE + webpName(files[0]) : undefined,
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "INR",
+              price: p.price,
+              availability: "https://schema.org/InStock",
+              url: SITE_URL + "/collections.html?q=" + encodeURIComponent(p.name)
+            }
+          }
+        };
+      })
+    });
+  }
+
   function initShop(root, data) {
     root.innerHTML = "";
+    injectProductListSchema(data);
     var params = getParams();
     var state = {
       collections: (params.get("collection") || "").split(",").filter(Boolean),
